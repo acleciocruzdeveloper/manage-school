@@ -30,4 +30,4 @@ jobs:
         pr_body: 'Automatically created Pull Request from ${{ github.ref }} to develop'
         pr_draft: false
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
