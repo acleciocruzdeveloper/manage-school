@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   manager-db:
@@ -11,6 +11,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - manager-school
 
   pgadmin:
 
@@ -20,9 +22,31 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - manager-db
+    networks:
+      - manager-school
+
+  manager-school-app:
+    container_name: manager-school
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=manager-db
+      - DB_PORT=5432
+      - DB_NAME=postgres
+    depends_on:
+      - manager-db
+    networks:
+      - manager-school
 
 volumes:
   postgres_data:
+
+networks:
+  manager-school:
+    driver: bridge

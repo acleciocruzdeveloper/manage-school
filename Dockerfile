@@ -1,14 +1,9 @@
-FROM openjdk:11-jdk-alpine AS builder
-
-COPY . /app
+FROM openjdk:17-jdk-slim
 
 WORKDIR /app
-RUN mvn package
 
-FROM openjdk:17-jdk-alpine
-
-COPY --from=builder /app/target/*.jar app.jar
+COPY target/manager-school-0.0.1-SNAPSHOT.jar /app/app.jar
 
 EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
 
-ENTRYPOINT ["java","-jar","/app.jar"]
