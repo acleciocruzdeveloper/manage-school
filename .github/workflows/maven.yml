@@ -1,0 +1,33 @@
+name: Auto PR from feature/* to develop
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Build with Maven
+      run: mvn clean package
+
+    - name: Create Pull Request to develop
+      uses: repo-sync/pull-request@v2
+      with:
+        destination_branch: develop
+        pr_title: 'Auto PR from ${{ github.ref }}'
+        pr_body: 'Automatically created Pull Request from ${{ github.ref }} to develop'
+        pr_draft: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
