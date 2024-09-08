@@ -43,7 +43,6 @@ services:
       - manager-db
     networks:
       - manager-school
-
 volumes:
   postgres_data:
 
