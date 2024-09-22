@@ -25,13 +25,3 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean package
-
-    - name: Create Pull Request to develop
-      uses: repo-sync/pull-request@v2
-      with:
-        destination_branch: develop
-        pr_title: 'Auto PR from ${{ github.ref }}'
-        pr_body: 'Automatically created Pull Request from ${{ github.ref }} to develop'
-        pr_draft: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
